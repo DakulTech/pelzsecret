@@ -7,7 +7,7 @@ import nodemailer from "nodemailer";
 export async function connectDB(env) {
   console.log("Connecting to MongoDB...");
   try {
-    await mongoose.connect(env.MONGO_URI);
+    await mongoose.connect(env.MONGO_URI || process.env.MONGO_URI);
     console.log("Successfully connected to MongoDB!");
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
@@ -37,8 +37,7 @@ export async function connectDB(env) {
  * Wraps all responses in a standardized JSON format with metadata
  * @example
  * router.get('/data', asyncHandler(async (req, res) => {
- *   const result = await fetchData();
- *   return result; // Will be wrapped automatically
+ *  res.json({ message: "Hi" }); // Will be wrapped automatically
  * }));
  *
  * @param {RequestHandler} fn - Async route handler

@@ -64,36 +64,39 @@ export const getCategoryByIdController = expressAsyncHandler(
  */
 export const createCategoryController = expressAsyncHandler(
   async (req, res) => {
-    const { name, description, parent, image } = req.body;
+    const body = Array.isArray(req.body) ? req.body : [req.body];
+    const categories = [];
+    for (const { name, description, parent, image } of body) {
+      if (!name) {
+        throw new HttpError(400, "Name is required");
+      }
 
-    if (!name) {
-      throw new HttpError(400, "Name is required");
+      // Generate slug from name
+      const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+
+      // Check if slug already exists
+      const existingCategory = await models.Category.findOne({ slug });
+      if (existingCategory) {
+        throw new HttpError(400, "Category with this name already exists");
+      }
+
+      // Validate parent category if provided
+      if (parent && !mongoose.Types.ObjectId.isValid(parent)) {
+        throw new HttpError(400, "Invalid parent category ID");
+      }
+
+      const category = await models.Category.create({
+        name,
+        slug,
+        description,
+        parent,
+        image,
+        isActive: true,
+      });
+
+      categories.push(category);
     }
-
-    // Generate slug from name
-    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-
-    // Check if slug already exists
-    const existingCategory = await models.Category.findOne({ slug });
-    if (existingCategory) {
-      throw new HttpError(400, "Category with this name already exists");
-    }
-
-    // Validate parent category if provided
-    if (parent && !mongoose.Types.ObjectId.isValid(parent)) {
-      throw new HttpError(400, "Invalid parent category ID");
-    }
-
-    const category = await models.Category.create({
-      name,
-      slug,
-      description,
-      parent,
-      image,
-      isActive: true,
-    });
-
-    res.status(201).json(category);
+    res.status(201).json(categories);
   }
 );
 
