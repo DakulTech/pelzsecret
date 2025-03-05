@@ -1,7 +1,8 @@
-import { asyncHandler as expressAsyncHandler, formatZodErrorToString, HttpError } from "../utils.js";
+import { asyncHandler as expressAsyncHandler, formatZodErrorToString, HttpError, isHtmxRequest } from "../utils.js";
 import mongoose from "mongoose";
 import { Product, Category } from "../models/index.js";
 import { productSchema } from "../zodSchema.js";
+import { hxGetProducts } from "../htmx-controller/products.js";
 
 /**
  * @typedef {Object} ProductQuery
@@ -55,13 +56,17 @@ export const getProductsController = expressAsyncHandler(async (req, res) => {
     .populate("categories", "name");
 
   const total = await Product.countDocuments(query);
-
-  res.status(200).json({
+  const data = {
     products,
     currentPage: Number(page),
     totalPages: Math.ceil(total / Number(limit)),
     total,
-  });
+  }
+
+  if (isHtmxRequest(req)) {
+    return hxGetProducts(req, res, data);
+  }
+  res.status(200).json(data);
 });
 
 /**
@@ -113,7 +118,7 @@ export const getProductBySlugController = expressAsyncHandler(
  */
 export const getProductsByCategoryController = expressAsyncHandler(
   async (req, res) => {
-    const { categoryId } = req.params;
+    const { categoryName } = req.params;
     /** @type {ProductQuery} */
     const {
       page = 1,
@@ -122,12 +127,11 @@ export const getProductsByCategoryController = expressAsyncHandler(
       order = "desc",
     } = req.query;
 
-    if (!mongoose.Types.ObjectId.isValid(categoryId)) {
-      throw new HttpError(400, "Invalid category ID");
-    }
-
     // Verify category exists
-    const category = await Category.findById(categoryId);
+    const category = await Category.findOne({
+      slug: categoryName,
+    });
+
     if (!category) {
       throw new HttpError(404, "Category not found");
     }
@@ -135,7 +139,7 @@ export const getProductsByCategoryController = expressAsyncHandler(
     const skip = (Number(page) - 1) * Number(limit);
 
     const products = await Product.find({
-      categories: categoryId,
+      categories: category._id,
       isActive: true,
     })
       .sort({ [sort]: order })
@@ -144,16 +148,21 @@ export const getProductsByCategoryController = expressAsyncHandler(
       .populate("categories", "name slug");
 
     const total = await Product.countDocuments({
-      categories: categoryId,
+      categories: category._id,
       isActive: true,
     });
-
-    res.status(200).json({
+    const data = {
       products,
       currentPage: Number(page),
       totalPages: Math.ceil(total / Number(limit)),
       total,
-    });
+    };
+
+    if (isHtmxRequest(req)) {
+      return hxGetProducts(req, res, data);
+    }
+
+    res.status(200).json(data);
   }
 );
 

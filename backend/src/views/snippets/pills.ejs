@@ -1,0 +1,93 @@
+<div class="product-slider-init theme1 slick-nav" id="<% target %>">
+  <% for(const product of products) { %>
+  <!-- slider-item start -->
+  <div class="slider-item">
+    <div class="card product-card">
+      <div class="card-body p-0">
+        <div class="media flex-column">
+          <div class="product-thumbnail position-relative">
+            <span class="badge badge-danger top-right">New</span>
+            <a href="/shop/<%- product.slug %>">
+              <img
+                class="first-img"
+                src="/assets/img/product/body cream/nivea.jpg"
+                alt="<%- product.name %>"
+              />
+            </a>
+            <!-- product links -->
+            <ul class="actions d-flex justify-content-center">
+              <li>
+                <a class="action" href="/wishlist">
+                  <span
+                    data-bs-toggle="tooltip"
+                    data-placement="bottom"
+                    title="add to wishlist"
+                    class="icon-heart"
+                  >
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="action"
+                  href="#"
+                  data-bs-toggle="modal"
+                  data-bs-target="#compare"
+                >
+                  <span
+                    data-bs-toggle="tooltip"
+                    data-placement="bottom"
+                    title="Add to compare"
+                    class="icon-shuffle"
+                  ></span>
+                </a>
+              </li>
+              <li>
+                <a
+                  class="action"
+                  href="#"
+                  data-bs-toggle="modal"
+                  data-bs-target="#quick-view"
+                >
+                  <span
+                    data-bs-toggle="tooltip"
+                    data-placement="bottom"
+                    title="Quick view"
+                    class="icon-magnifier"
+                  ></span>
+                </a>
+              </li>
+            </ul>
+            <!-- product links end-->
+          </div>
+          <div class="media-body">
+            <div class="product-desc">
+              <h3 class="title">
+                <a href="/shop/<%- product.slug %>"><%- product.name %></a>
+              </h3>
+              <div class="star-rating">
+                <% for( let i = 0; i < 5; i++ ) { %>
+                <span
+                  class="ion-ios-star<% if (i < product.rating) { return %> de-selected<% } %>"
+                ></span>
+                <% } %>
+              </div>
+              <div class="d-flex align-items-center justify-content-between">
+                <span class="product-price">&#8358;<%- product.price %></span>
+                <button
+                  class="pro-btn"
+                  data-bs-toggle="modal"
+                  data-bs-target="#add-to-cart"
+                >
+                  <i class="icon-basket"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- slider-item end -->
+  <% } %>
+</div>

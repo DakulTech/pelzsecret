@@ -44,7 +44,7 @@ import { ActivityLog } from "./models/index.js";
 import { getProductReviewsController, createReviewController, updateReviewStatusController, updateReviewHelpfulController } from "./controllers/reviews.js";
 import { uploadImagesController, deleteImageController } from "./controllers/upload.js";
 
-const router = Router({
+const apiRouter = Router({
   caseSensitive: true,
 });
 
@@ -53,79 +53,79 @@ const r2 = restrictTo("super_admin", "admin");
 const r3 = restrictTo("super_admin");
 
 // Upload Routes
-router.post('/upload', uploadImagesController);
-router.delete('/images/:filename', deleteImageController);
+apiRouter.post('/upload', uploadImagesController);
+apiRouter.delete('/images/:filename', deleteImageController);
 
 // Category Routes
-router.get("/categories", getCategoriesController);
-router.get("/categories/:id", getCategoryByIdController);
-router.post("/categories", protect, r1, createCategoryController);
-router.put("/categories/:id", protect, r1, updateCategoryController);
-router.delete("/categories/:id", protect, r2, deleteCategoryController);
+apiRouter.get("/categories", getCategoriesController);
+apiRouter.get("/categories/:id", getCategoryByIdController);
+apiRouter.post("/categories", protect, r1, createCategoryController);
+apiRouter.put("/categories/:id", protect, r1, updateCategoryController);
+apiRouter.delete("/categories/:id", protect, r2, deleteCategoryController);
 
 // Product Routes
-router.get("/products", getProductsController);
-router.get("/products/:id", getProductByIdController);
-router.get("/products/slug/:slug", getProductBySlugController);
-router.get("/products/category/:categoryId", getProductsByCategoryController);
-router.post("/products", protect, r1, createProductController);
-router.put("/products/:id", protect, r1, updateProductController);
-router.delete("/products/:id", protect, r2, deleteProductController);
-router.put("/products/:id/inventory", protect, r1, updateProductInventoryController);
+apiRouter.get("/products", getProductsController);
+apiRouter.get("/products/:id", getProductByIdController);
+apiRouter.get("/products/slug/:slug", getProductBySlugController);
+apiRouter.get("/products/category/:categoryName", getProductsByCategoryController);
+apiRouter.post("/products", protect, r1, createProductController);
+apiRouter.put("/products/:id", protect, r1, updateProductController);
+apiRouter.delete("/products/:id", protect, r2, deleteProductController);
+apiRouter.put("/products/:id/inventory", protect, r1, updateProductInventoryController);
 
 // Cart Routes
-router.post("/cart", createCartController);
-router.get("/cart/:sessionId", getCartBySessionController);
-router.post("/cart/:sessionId/items", addCartItemController);
-router.put("/cart/:sessionId/items/:itemId", updateCartItemController);
-router.delete("/cart/:sessionId/items/:itemId", removeCartItemController);
-router.delete("/cart/:sessionId", clearCartController);
+apiRouter.post("/cart", createCartController);
+apiRouter.get("/cart/:sessionId", getCartBySessionController);
+apiRouter.post("/cart/:sessionId/items", addCartItemController);
+apiRouter.put("/cart/:sessionId/items/:itemId", updateCartItemController);
+apiRouter.delete("/cart/:sessionId/items/:itemId", removeCartItemController);
+apiRouter.delete("/cart/:sessionId", clearCartController);
 
 // Order Routes
-router.post("/orders", createOrderController);
-router.get("/orders/:orderNumber", getOrderByNumberController);
-router.put("/orders/:orderNumber/status", updateOrderStatusController);
-router.put(
+apiRouter.post("/orders", createOrderController);
+apiRouter.get("/orders/:orderNumber", getOrderByNumberController);
+apiRouter.put("/orders/:orderNumber/status", updateOrderStatusController);
+apiRouter.put(
   "/orders/:orderNumber/payment-status",
   updatePaymentStatusController
 );
 
 // Review Routes
-router.get('/products/:productId/reviews', getProductReviewsController);
-router.post('/products/:productId/reviews', createReviewController);
-router.put('/reviews/:id/status', updateReviewStatusController);
-router.put('/reviews/:id/helpful', updateReviewHelpfulController);
+apiRouter.get('/products/:productId/reviews', getProductReviewsController);
+apiRouter.post('/products/:productId/reviews', createReviewController);
+apiRouter.put('/reviews/:id/status', updateReviewStatusController);
+apiRouter.put('/reviews/:id/helpful', updateReviewHelpfulController);
 
 // auth routes
-router.post("/auth/register",protect, r3, register);
-router.post("/auth/login", login);
-router.get("/auth/logout", protect, logout);
+apiRouter.post("/auth/register",protect, r3, register);
+apiRouter.post("/auth/login", login);
+apiRouter.get("/auth/logout", protect, logout);
 
 // admin routes
-router.use("/admins", protect, r3);
-router.get("/admins", getAllAdmins);
-router.post(
+apiRouter.use("/admins", protect, r3);
+apiRouter.get("/admins", getAllAdmins);
+apiRouter.post(
   "/admins",
   logActivity("CREATE", "User"),
   createAdmin
 );
-router.patch(
+apiRouter.patch(
   "/admins/:id",
   logActivity("UPDATE", "User"),
   updateAdmin
 );
-router.delete(
+apiRouter.delete(
   "/admins/:id",
   logActivity("DELETE", "User"),
   deleteAdmin
 );
 
 // Password reset routes
-router.post("/auth/forgot-password", forgotPassword);
-router.patch("/auth/reset-password/:token", resetPassword);
+apiRouter.post("/auth/forgot-password", forgotPassword);
+apiRouter.patch("/auth/reset-password/:token", resetPassword);
 
 // Activity Log routes
-router.get(
+apiRouter.get(
   "/activity-logs",
   protect,
   r3,
@@ -146,4 +146,4 @@ router.get(
   }
 );
 
-export default router;
+export default apiRouter;

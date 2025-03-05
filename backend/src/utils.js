@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 import nodemailer from "nodemailer";
 
+export function isHtmxRequest(req) {
+  return req.headers["hx-request"] === "true";
+}
+
 /**
  * @param {import("dotenv").DotenvParseOutput} env
  */

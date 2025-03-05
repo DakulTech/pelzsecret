@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en-US,fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta
+      name="description"
+      content="PelzSecret-The best skincare brand in Ibadan"
+    />
+    <title>PelzSecret | <%= title %></title>
+    <!-- Favicon -->
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="/assets/img/favicon/favicon.ico"
+    />
+
+    <!--********************************** 
+        all css files 
+    *************************************-->
+
+    <!--*************************************************** 
+       fontawesome,bootstrap,plugins and main style css
+     ***************************************************-->
+    <!-- cdn links -->
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.0/css/ionicons.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.0/css/simple-line-icons.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/assets/css/plugins/plugins.css" />
+    <!-- <link rel="stylesheet" href="/assets/css/vendor/vendor.min.css" /> -->
+    <link rel="stylesheet" href="/assets/css/style.min.css" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+  </head>
+
+  <body>
+    <%- include('../partials/header') %>
+    <% if (showBreadCrumbs) { %>
+      <%- include('../partials/breadcrumbs') %>
+    <% } %>
+    <%- body %>
+    <%- include('../partials/footer') %>
+    <%- include('../partials/modals') %>
+
+     <!--*********************** 
+     all js files
+     ***********************-->
+     <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+
+    <!--****************************************************** 
+        jquery,modernizr ,poppe,bootstrap,plugins and main js
+     ******************************************************-->
+
+    <script src="/assets/js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="/assets/js/vendor/jquery-migrate-3.3.2.min.js"></script>
+    <script src="/assets/js/vendor/modernizr-3.7.1.min.js"></script>
+    <script
+      src="https://code.jquery.com/ui/1.13.3/jquery-ui.min.js"
+      integrity="sha256-sw0iNNXmOJbQhYFuC9OF2kOlD5KQKe1y5lfBn4C9Sjg="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/assets/js/plugins/plugins.js"></script>
+    <!-- <script src="/assets/js/vendor/vendor.min.js"></script> -->
+    <!-- <script src="/assets/js/plugins/ajax-contact.js"></script> -->
+    <script src="/assets/js/main.js"></script>
+
+    <!-- Use the minified version files listed below for better performance and remove the files listed above -->
+
+    <!--*************************** 
+          Minified  js 
+     ***************************-->
+
+    <!--*********************************** 
+         vendor,plugins and main js
+      ***********************************-->
+
+    <!-- <script src="/assets/js/vendor/vendor.min.js"></script>
+    <script src="/assets/js/plugins/plugins.min.js"></script>
+    <script src="/assets/js/main.js"></script> -->
+  </body>
+</html>
