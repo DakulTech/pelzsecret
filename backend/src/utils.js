@@ -8,13 +8,13 @@ export function isHtmxRequest(req) {
 /**
  * @param {import("dotenv").DotenvParseOutput} env
  */
-export async function connectDB(env) {
+export async function connectDB() {
   console.log("Connecting to MongoDB...");
   try {
-    await mongoose.connect(env.MONGO_URI || process.env.MONGO_URI);
+    await mongoose.connect(process.env.MONGO_URI);
     console.log("Successfully connected to MongoDB!");
   } catch (error) {
-    console.error("Error connecting to MongoDB:", error);
+    console.error("Error connecting to MongoDB:", error, process.env);
     process.exit(1); // Exit process with failure
   }
 }
